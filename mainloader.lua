@@ -4,14 +4,32 @@ if not game:IsLoaded() then
     game.Loaded:Wait()
 end
 
--- Base URL
 local BASE_URL = "https://raw.githubusercontent.com/KhangICO/steal-a-brainrot-kaitun/main/"
 
+local function LoadModule(path)
+    local ok, result = pcall(function()
+        return loadstring(game:HttpGet(BASE_URL .. path))()
+    end)
+
+    if not ok then
+        warn("[Loader] Failed to load:", path, result)
+        return nil
+    end
+
+    print("[Loader] Loaded:", path)
+    return result
+end
+
 -- Load modules
-local Config = loadstring(game:HttpGet(BASE_URL .. "modules/config.lua"))()
-local Performance = loadstring(game:HttpGet(BASE_URL .. "modules/performance.lua"))()
-local AutoBuy = loadstring(game:HttpGet(BASE_URL .. "modules/autobuy.lua"))()
-local UI = loadstring(game:HttpGet(BASE_URL .. "modules/UI.lua"))()
+local Config = LoadModule("modules/config.lua")
+local Performance = LoadModule("modules/performance.lua")
+local AutoBuy = LoadModule("modules/autobuy.lua")
+local UI = LoadModule("modules/UI.lua")
+
+if not Config then
+    warn("Config failed to load → STOP")
+    return
+end
 
 -- Init
 if Performance and Performance.Init then
