@@ -25,6 +25,10 @@ local Config = LoadModule("modules/config.lua")
 local Performance = LoadModule("modules/performance.lua")
 local AutoBuy = LoadModule("modules/autobuy.lua")
 local UI = LoadModule("modules/UI.lua")
+local AutoMove = loadstring(game:HttpGet(BASE_URL .. "modules/auto_move.lua"))()
+
+-- ví dụ gọi
+AutoMove.MoveTo(Vector3.new(-405.6, -6.5, 226.2))
 
 if not Config then
     warn("Config failed to load → STOP")
@@ -43,6 +47,9 @@ end
 if UI and UI.Create then
     local ui = UI.Create()
     ui.SetVisible(true)
+end
+if AutoMove and AutoMove.Start then
+    AutoMove.Start(Config.Misc)
 end
 
 print("[Steal a Brainrot Kaitun] Loaded successfully.")
