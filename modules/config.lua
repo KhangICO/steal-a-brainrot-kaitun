@@ -10,21 +10,19 @@ local Config = {
         ["Auto Buy"] = {
             ["Enable"] = true,
             ["Min Income Per Second"] = 1e7, -- 10M/s
+            ["Buy When Brainrot Near"] = true,
+            ["Brainrot Radius"] = 25,
         },
 
         -- CHỈ ghi tên Brainrot SECRET KHÔNG muốn mua
-        ["Ignore Secret"] = {
-            -- "Old Secret",
-            -- "Test Secret",
-        },
-
+        ["Ignore Secret"] = {},
         ["Kick if Ping above"] = 750,
         ["Kick if FPS below"] = 5,
         ["Max Rebirth"] = 0,
     },
 
     ["Performance"] = {
-        ["FPS Cap"] = 10,
+        ["FPS Cap"] = 10, ----chỉnh fps tối đa
         ["Black Screen"] = true,
     },
 
