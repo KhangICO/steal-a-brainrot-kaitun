@@ -1,0 +1,123 @@
+-- UI module: creates a ScreenGui with a left-side panel and status rows
+local UI = {}
+
+local function isRobloxEnv()
+    return type(game) == "Instance" and game.GetService
+end
+
+function UI.Init(parent)
+    if not isRobloxEnv() then
+        warn("UI.Init called outside Roblox environment; no GUI created")
+        return nil
+    end
+
+    local Players = game:GetService("Players")
+    local playerGui = parent or Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "StealUI"
+    screenGui.ResetOnSpawn = false
+    screenGui.Parent = playerGui
+
+    local mainFrame = Instance.new("Frame")
+    mainFrame.Name = "Sidebar"
+    mainFrame.Size = UDim2.new(0, 240, 0, 360)
+    mainFrame.Position = UDim2.new(0, 16, 0, 16)
+    mainFrame.BackgroundColor3 = Color3.fromRGB(28, 34, 43)
+    mainFrame.BorderSizePixel = 0
+    mainFrame.Parent = screenGui
+
+    local uiCorner = Instance.new("UICorner")
+    uiCorner.CornerRadius = UDim.new(0, 8)
+    uiCorner.Parent = mainFrame
+
+    local title = Instance.new("TextLabel")
+    title.Name = "Title"
+    title.Size = UDim2.new(1, -20, 0, 36)
+    title.Position = UDim2.new(0, 10, 0, 8)
+    title.BackgroundTransparency = 1
+    title.TextColor3 = Color3.fromRGB(230, 230, 230)
+    title.Text = "Main"
+    title.Font = Enum.Font.GothamSemibold
+    title.TextSize = 18
+    title.TextXAlignment = Enum.TextXAlignment.Left
+    title.Parent = mainFrame
+
+    local function makeRow(name, yOffset)
+        local container = Instance.new("Frame")
+        container.Size = UDim2.new(1, -20, 0, 40)
+        container.Position = UDim2.new(0, 10, 0, yOffset)
+        container.BackgroundTransparency = 1
+        container.Parent = mainFrame
+
+        local label = Instance.new("TextLabel")
+        label.Name = "Label"
+        label.Size = UDim2.new(0.6, 0, 1, 0)
+        label.Position = UDim2.new(0, 0, 0, 0)
+        label.BackgroundTransparency = 1
+        label.Text = name
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.TextColor3 = Color3.fromRGB(200, 200, 200)
+        label.Font = Enum.Font.Gotham
+        label.TextSize = 14
+        label.Parent = container
+
+        local value = Instance.new("TextLabel")
+        value.Name = "Value"
+        value.Size = UDim2.new(0.4, 0, 1, 0)
+        value.Position = UDim2.new(0.6, 0, 0, 0)
+        value.BackgroundTransparency = 1
+        value.Text = "Idle"
+        value.TextXAlignment = Enum.TextXAlignment.Right
+        value.TextColor3 = Color3.fromRGB(120, 190, 120)
+        value.Font = Enum.Font.GothamSemibold
+        value.TextSize = 14
+        value.Parent = container
+
+        local hover = Instance.new("TextButton")
+        hover.Name = "Hit"
+        hover.Size = UDim2.new(1, 0, 1, 0)
+        hover.BackgroundTransparency = 1
+        hover.Text = ""
+        hover.Parent = container
+
+        return {Container = container, Label = label, Value = value}
+    end
+
+    local rows = {}
+    rows["Main"] = makeRow("Main", 56) ----nếu có brainrot xịn từ độ hiếm secret trở lên thì sẽ hiển thị theo "https://stealabrainrot.fandom.com/wiki/Secret"
+    rows["Secondary"] = makeRow("Secondary", 96) ----nếu người chs đứng yên hiện "idle" nếu có brainrot sắp đến gần hiện "brainrot nearby"
+    rows["Target"] = makeRow("Target", 136) ----chỉ mua những brainrot có thu nhập trên giây (IPS) lớn hơn giá trị đã cấu hình 
+    rows["Base"] = makeRow("Base", 176) ----nếu có brainrot trong base thì hiển thị "base has brainrot"
+    rows["Secret"] = makeRow("Secret", 216) ----nếu có secret brainrot trong base thì hiển thị
+    rows["Frame Rate"] = makeRow("Frame Rate", 256) ----hiển thị fps hiện tại
+    rows["Frame Rate"].Value.Text = "60 FPS" ----hiển thị fps tối đa
+
+    local function setValue(key, text, color)
+        if rows[key] then
+            rows[key].Value.Text = text
+            if color then
+                rows[key].Value.TextColor3 = color
+            end
+        end
+    end
+
+    local api = {}
+    api.Root = screenGui
+    api.SetValue = setValue
+    api.SetVisible = function(visible)
+        screenGui.Enabled = visible
+    end
+
+    api.SetSecretState = function(enabled)
+        if enabled then
+            setValue("Secret", "Base has secret brainrot", Color3.fromRGB(230, 120, 60))
+        else ----nếu có secret brainrot trong base thì hiển thị
+            setValue("Secret", "", Color3.fromRGB(200,200,200))
+        end
+    end
+
+    return api
+end
+
+return UI

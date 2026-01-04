@@ -25,7 +25,7 @@ local Config = LoadModule("modules/config.lua")
 local Performance = LoadModule("modules/performance.lua")
 local AutoBuy = LoadModule("modules/autobuy.lua")
 local UI = LoadModule("modules/UI.lua")
-local AutoMove = loadstring(game:HttpGet(BASE_URL .. "modules/auto_move.lua"))()
+local AutoMove = LoadModule("modules/automove.lua")
 
 -- ví dụ gọi
 AutoMove.MoveTo(Vector3.new(-405.6, -6.5, 226.2))
