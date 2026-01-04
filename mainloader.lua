@@ -22,4 +22,12 @@ if AutoBuy and AutoBuy.Start then
     AutoBuy.Start(Config.Misc)
 end
 
+if UI and UI.Create then
+    local ui = UI.Create()
+    ui.SetVisible(true)
+end
+
 print("[Steal a Brainrot Kaitun] Loaded successfully.")
+
+getgenv().scriptLoaded = true
+getgenv().Joebiden = true
