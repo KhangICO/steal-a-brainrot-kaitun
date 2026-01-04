@@ -85,13 +85,13 @@ function UI.Init(parent)
     end
 
     local rows = {}
-    rows["Main"] = makeRow("Main", 56)
-    rows["Secondary"] = makeRow("Secondary", 96)
-    rows["Target"] = makeRow("Target", 136)
-    rows["Base"] = makeRow("Base", 176)
-    rows["Secret"] = makeRow("Secret", 216)
-    rows["Frame Rate"] = makeRow("Frame Rate", 256)
-    rows["Frame Rate"].Value.Text = "60 FPS"
+    rows["Main"] = makeRow("Main", 56) ----nếu có brainrot xịn từ độ hiếm secret trở lên thì sẽ hiển thị theo "https://stealabrainrot.fandom.com/wiki/Secret"
+    rows["Secondary"] = makeRow("Secondary", 96) ----nếu người chs đứng yên hiện "idle" nếu có brainrot sắp đến gần hiện "brainrot nearby"
+    rows["Target"] = makeRow("Target", 136) ----chỉ mua những brainrot có thu nhập trên giây (IPS) lớn hơn giá trị đã cấu hình 
+    rows["Base"] = makeRow("Base", 176) ----nếu có brainrot trong base thì hiển thị "base has brainrot"
+    rows["Secret"] = makeRow("Secret", 216) ----nếu có secret brainrot trong base thì hiển thị
+    rows["Frame Rate"] = makeRow("Frame Rate", 256) ----hiển thị fps hiện tại
+    rows["Frame Rate"].Value.Text = "60 FPS" ----hiển thị fps tối đa
 
     local function setValue(key, text, color)
         if rows[key] then
@@ -112,7 +112,7 @@ function UI.Init(parent)
     api.SetSecretState = function(enabled)
         if enabled then
             setValue("Secret", "Base has secret brainrot", Color3.fromRGB(230, 120, 60))
-        else
+        else ----nếu có secret brainrot trong base thì hiển thị
             setValue("Secret", "", Color3.fromRGB(200,200,200))
         end
     end
