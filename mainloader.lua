@@ -11,6 +11,7 @@ local BASE_URL = "https://raw.githubusercontent.com/KhangICO/steal-a-brainrot-ka
 local Config = loadstring(game:HttpGet(BASE_URL .. "modules/config.lua"))()
 local Performance = loadstring(game:HttpGet(BASE_URL .. "modules/performance.lua"))()
 local AutoBuy = loadstring(game:HttpGet(BASE_URL .. "modules/autobuy.lua"))()
+local UI = loadstring(game:HttpGet(BASE_URL .. "modules/UI.lua"))()
 
 -- Init
 if Performance and Performance.Init then
